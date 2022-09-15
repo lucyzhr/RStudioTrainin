@@ -12,6 +12,8 @@ library(gt)
 
 Import
 ```{r}
+adsl <- read_sas("https://github.com/elong0527/r4csr/raw/master/data-adam/adsl.sas7bdat", 
+    NULL)
 adae <- read_sas("https://github.com/elong0527/r4csr/raw/master/data-adam/adae.sas7bdat", 
     NULL)
 View(adae) #This is to view the adae dataset in a new window
@@ -33,12 +35,46 @@ adae %>%
  theme_minimal()
 
 ```
-
+###afternoon####
+###case study: AE summary#####
+```{r}
+library(haven) # Read SAS data
+library(dplyr) # Manipulate data
+library(tidyr) # Manipulate data
+library(r2rtf) # Reporting in RTF format
+#install.packages("r2rtf")
+```
 
 
 
 Prep Data
 ```{r}
+
+adsl %>%
+  select(USUBJID, ITTFL, EFFFL, SAFFL) %>%
+  head(4)
+
+fmt_num <- function(x, digits, width = digits + 4) {
+  formatC(x,
+    digits = digits,
+    format = "f",
+    width = width
+  )
+}
+
+
+tidy_ae <- adae %>%
+  mutate(
+    all = SAFFL == "Y",
+    drug = AEREL %in% c("POSSIBLE", "PROBABLE"),
+    ser = AESER == "Y",
+    drug_ser = drug & ser,
+    die = AEOUT == "FATAL"
+  ) %>%
+  select(USUBJID, TRTAN, all, drug, ser, drug_ser, die) %>%
+  pivot_longer(cols = c(all, drug, ser, drug_ser, die))
+
+tidy_ae %>% head(4)
 ```
 
 
