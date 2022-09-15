@@ -1,0 +1,53 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+Packages
+```{r}
+library(haven)
+library(ggplot2)
+library(dplyr)
+library(gt)
+```
+
+Import
+```{r}
+adae <- read_sas("https://github.com/elong0527/r4csr/raw/master/data-adam/adae.sas7bdat", 
+    NULL)
+View(adae) #This is to view the adae dataset in a new window
+adae #This is to open adae in Rmarkdown as below
+```
+
+Prep data
+```{r}
+
+library(dplyr)
+library(ggplot2)
+
+adae %>%
+ filter(!(AEREL %in% "")) %>%
+ ggplot() +
+ aes(x = AEREL, fill = TRTA) +
+ geom_bar() +
+ scale_fill_hue(direction = 1) +
+ theme_minimal()
+
+```
+
+
+
+
+Prep Data
+```{r}
+```
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+```{r}
+
+```
+
